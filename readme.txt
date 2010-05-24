@@ -1,4 +1,4 @@
-=== GFontr  ===
+=== GFontr, Google WebFont  ===
 Tags: beta, fonts, webfont, Google WebFont
 Contributors: Benoit Gilloz
 Tested up to: 3.0 beta 2
