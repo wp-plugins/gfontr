@@ -1,7 +1,7 @@
 <?php
 /*
 	Plugin Name: GFontr
-	Plugin URI: http://wordpress.org/extend/plugins/gfontr/
+	Plugin URI: http://www.ai-development.com/wordpress-plugins/gfontr
 	Description: Allows you to easily include fonts from Google WebFonts library
 	Author: Benoit Gilloz
 	Version: beta
