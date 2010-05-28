@@ -1,7 +1,7 @@
 === GFontr, Google WebFont  ===
 Tags: beta, fonts, webfont, Google WebFont
 Contributors: Benoit Gilloz
-Tested up to: 3.0 beta 2
+Tested up to: 3.0 RC 1
 Requires at least: 2.9
 Stable tag: trunk
 
@@ -12,7 +12,11 @@ This plugin does not write CSS for you but call all the fonts selected in the ba
 
 == Changelog ==
 
-beta : First release
+= 1.0 =
+* Fix a bug where you could not unselect a font if it was the only one included. 
+
+= Beta =
+* First release
 
 == Installation ==
 

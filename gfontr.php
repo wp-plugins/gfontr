@@ -1,10 +1,10 @@
 <?php
 /*
 	Plugin Name: GFontr
-	Plugin URI: http://www.ai-development.com/wordpress-plugins/gfontr
-	Description: Allows you to easily include fonts from Google WebFonts library
+	Plugin URI: http://www.ai-development.com/wordpress-plugins/simple-flickr-photostream-widget
+	Description: Allows you to easily include fonts from the Google WebFonts library
 	Author: Benoit Gilloz
-	Version: beta
+	Version: 1.0
 	Author URI: http://www.ai-development.com/
  */
 
@@ -56,8 +56,11 @@ class gfontr {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		}
 
-		if($_POST['gfontr_fonts']){
+		if($_POST['gfontr_fonts'] && $_POST['action'] == 'update'){
 			update_option('gfontr_fonts', $_POST['gfontr_fonts']);
+		}
+		elseif($_POST['action'] == 'update' && !isset($_POST['gfontr_fonts'])){
+			update_option('gfontr_fonts', '');
 		}
 
 		?>
