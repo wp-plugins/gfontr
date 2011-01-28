@@ -4,7 +4,7 @@
 	Plugin URI: http://www.ai-development.com/wordpress-plugins/simple-flickr-photostream-widget
 	Description: Allows you to easily include fonts from the Google WebFonts library
 	Author: Benoit Gilloz
-	Version: 1.0
+	Version: 1.1
 	Author URI: http://www.ai-development.com/
  */
 
