@@ -4,7 +4,7 @@
 	Plugin URI: http://www.ai-development.com/wordpress-plugins/simple-flickr-photostream-widget
 	Description: Allows you to easily include fonts from the Google WebFonts library
 	Author: Benoit Gilloz
-	Version: 1.1
+	Version: 1.2
 	Author URI: http://www.ai-development.com/
  */
 
@@ -12,7 +12,7 @@ class gfontr {
 	
 	function gfontr() {
 
-		add_action('admin_head', array(&$this, 'action_admin_head'));
+		add_action('admin_enqueue_scripts', array(&$this, 'action_admin_head'));
 		add_action('admin_init', array(&$this, 'action_admin_init'));
 		add_action('admin_menu', array(&$this, 'action_admin_menu'));
 
@@ -22,9 +22,11 @@ class gfontr {
 		}
 	}
 
-	function action_admin_head(){
-		echo '<script src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js" type="text/javascript"></script>';
-		echo '<script src="'.get_bloginfo('url'). '/wp-content/plugins/gfontr/gfontr-js.js" type="text/javascript"></script>';
+	function action_admin_head($hook){
+		if($hook === 'appearance_page_webfont-loader'){
+			wp_enqueue_script('WebFonts', 'http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
+			wp_enqueue_script('Gfontr', plugins_url('/gfontr-js.js', __FILE__));
+		}
 	}
 	
 	function action_admin_init() {
@@ -41,13 +43,7 @@ class gfontr {
 
 	function action_frontend_head(){
 		$fonts = get_option('gfontr_fonts');
-		echo "<script type=\"text/javascript\">
-			currentFonts = ['".implode('\',\'', $fonts)."'];
-			WebFont.load({
-				google: {
-				  families: currentFonts
-				}
-			});</script>";
+		echo "<script type=\"text/javascript\">currentFonts = ['".implode('\',\'', $fonts)."'];	WebFont.load({google: {families: currentFonts}});</script>";
 	}
 
 	function display_page() {
@@ -56,11 +52,13 @@ class gfontr {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		}
 
-		if($_POST['gfontr_fonts'] && $_POST['action'] == 'update'){
-			update_option('gfontr_fonts', $_POST['gfontr_fonts']);
-		}
-		elseif($_POST['action'] == 'update' && !isset($_POST['gfontr_fonts'])){
-			update_option('gfontr_fonts', '');
+		if(isset($_POST['action']) && $_POST['action'] == 'update' ) {
+			if(isset($_POST['gfontr_fonts'])) {
+			   $updated = update_option('gfontr_fonts', $_POST['gfontr_fonts']);
+			}
+			else {
+				$updated = update_option('gfontr_fonts', '');
+			}
 		}
 
 		?>
@@ -75,11 +73,13 @@ class gfontr {
 
 			<?php screen_icon(); ?>
 			<h2><?php _e('WebFont Loader','gfontr')?></h2>
-
+			<?php if ($updated === true) { ?>
+				<div class="updated below-h2" id="message"><p><?php _e( '<strong>Font selection updated!</strong>' ); ?></p></div>
+			<?php } ?>
 			<div>
 				<form method="post" action="">
 				<?php settings_fields('gfontr_fonts'); ?>
-				<fieldset><legend><?php _e('Select the fonts you want loaded on your site:','gfontr')?></legend>
+				<fieldset><legend><?php _e('Select the fonts you want loaded on your site then add the corresponding css line to your stylesheet:','gfontr')?></legend>
 					
 					<table class="form-table">
 						<tr>
